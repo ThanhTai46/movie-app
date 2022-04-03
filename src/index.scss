@@ -1,3 +1,48 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+html {
+  @apply scroll-smooth;
+}
+
+@layer base {
+  body {
+    @apply bg-slate-900 font-body text-white;
+  }
+}
+
+@layer components {
+  .fix {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+  }
+  .page-container {
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .page-container-fluid {
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .movie-list .swiper-slide {
+    width: 300px;
+    height: auto;
+  }
+  .movie-list .swiper-button-prev {
+    font-weight: bold;
+  }
+  .movie-list .swiper-button-next {
+    font-weight: bold;
+  }
+  .banner .swiper {
+    height: 100%;
+
+    transition-duration: 0.3s;
+  }
+}
