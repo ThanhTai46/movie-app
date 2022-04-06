@@ -83,3 +83,21 @@ body::-webkit-scrollbar-thumb {
   height: 70%;
   object-fit: fill;
 }
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  .selected {
+    @apply text-pink-700;
+  }
+  .next,
+  .previous {
+    padding: 8px;
+    background-color: white;
+    font-size: 16px;
+    font-weight: 500;
+    color: black;
+    border-radius: 6px;
+  }
+}
