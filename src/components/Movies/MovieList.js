@@ -19,7 +19,7 @@ const MovieList = ({ type }) => {
 
   return (
     <div>
-      <div className="movie-list md:ml-7">
+      <div className="movie-list md:ml-7 lg:ml-2">
         <Swiper
           modules={[Navigation, Pagination, Scrollbar, A11y]}
           pagination={{ clickable: true }}

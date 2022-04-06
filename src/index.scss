@@ -25,6 +25,10 @@ html {
     margin-left: auto;
     margin-right: auto;
   }
+  .page-full {
+    max-width: 100%;
+    height: 600px;
+  }
   .page-container-fluid {
     max-width: 1440px;
     margin-left: auto;
@@ -45,4 +49,27 @@ html {
 
     transition-duration: 0.3s;
   }
+}
+
+.header {
+}
+.hide {
+  background-color: translate;
+}
+.show {
+  background-color: rgba(51, 10, 103, 0.93);
+}
+
+.responsive-video {
+  position: relative;
+  height: 0;
+  padding-bottom: calc((9 / 16) * 100%);
+}
+.responsive-video iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 70%;
+  object-fit: fill;
 }

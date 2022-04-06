@@ -1,21 +1,17 @@
-import React from "react";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { FaTimesCircle } from "react-icons/fa";
 import { Fragment } from "react";
+import Intro from "../../introVideo/Intro";
+import { useScrollY } from "../../../hooks/useScrollY";
 
 const Header = () => {
+  const [scrollY] = useScrollY();
   const handleModal = (e) => {
     const menu = document.querySelector(".menu");
 
-    // console.log(menu);
-    // // const menuToggle = document.querySelector(".menu-toggle");
     menu.classList.toggle("md:block");
     menu.classList.toggle("md:hidden");
-
-    // menu.addEventListener("click", function (e) {
-    //   menu.classList.remove("md:block");
-    // });
   };
   const handleClose = () => {
     const times = document.querySelector(".times");
@@ -23,8 +19,9 @@ const Header = () => {
   };
   return (
     <Fragment>
-      <div className="menu md:fixed md:inset-0 md:bg-[rgba(0,0,0,0.6)] z-10 md:hidden transition-transform">
-        <div className="menu-toggle transition-all md:absolute md:top-0 md:bottom-0 md:left-0 md:bg-[#0B1E30] md:w-[160px] md:z-20 md:flex md:flex-col hidden">
+      {/* Menu navbar for mobile */}
+      <div className="z-50 menu md:fixed md:inset-0 md:bg-[rgba(0,0,0,0.6)] md:hidden transition-all">
+        <div className=" menu-toggle transition-all md:absolute md:top-0 md:bottom-0 md:left-0 md:bg-[#0B1E30] md:w-[160px] md:z-20 md:flex md:flex-col hidden">
           <button className="times">
             <FaTimesCircle
               className="md:absolute md:right-2 md:top-3 md:text-2xl md:mb-10"
@@ -47,17 +44,26 @@ const Header = () => {
           </span>
         </div>
       </div>
-      <header className="flex items-center justify-start py-5 mb-2 px-5 header gap-x-5">
+      <header
+        style={
+          scrollY < 50
+            ? { backgroundColor: "transparent" }
+            : { backgroundColor: "rgb(17, 17, 17)" }
+        }
+        className=" flex items-center justify-start transition-all py-5 mb-2 px-5 header gap-x-5 fixed top-0  z-20  w-full bg-transparent"
+      >
         <GiHamburgerMenu
-          className="menu md:block md:text-2xl hidden"
+          className="hidden menu md:block md:text-2xl"
           onClick={handleModal}
         />
 
-        <img
-          src="/images/logo-full.png"
-          alt=""
-          className="w-[112px] h-[28px] object-cover"
-        />
+        <Link to="/">
+          <img
+            src="/images/logo-full.png"
+            alt=""
+            className="w-[112px] h-[28px] object-cover cursor-pointer"
+          />
+        </Link>
         <NavLink
           to="/"
           className={({ isActive }) =>

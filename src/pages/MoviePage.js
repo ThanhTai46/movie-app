@@ -15,12 +15,12 @@ const MoviePage = () => {
 
   const movies = data?.results || [];
   return (
-    <div className="py-10 page-container">
+    <div className="py-28 page-container md:px-4 ">
       <div className="flex mb-10">
         <div className="flex-1 ">
           <input
             type="text"
-            className="w-full p-4 bg-white outline-none rounded-lg text-black"
+            className="  w-full p-4 bg-white outline-none rounded-lg text-black"
             placeholder="Type here to search..."
           />
         </div>
