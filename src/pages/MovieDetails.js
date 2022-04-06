@@ -1,9 +1,19 @@
 import React from "react";
 import { Fragment } from "react";
 import { useParams } from "react-router-dom";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/scss";
+import "swiper/css/navigation";
+import "swiper/css/pagination";
+import "swiper/css/scrollbar";
+import { BsFillPlayCircleFill } from "react-icons/bs";
+import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import useSWR from "swr";
 import { fetcher } from "../config";
+import CardMovie from "../components/Movies/CardMovie";
+import { useNavigate } from "react-router-dom";
 const MovieDetails = () => {
+  const navigate = useNavigate();
   const { movieId } = useParams();
   const { data } = useSWR(
     `https://api.themoviedb.org/3/movie/${movieId}?api_key=599785b548051b03695ff20b291c6977`,
@@ -30,8 +40,17 @@ const MovieDetails = () => {
           alt=""
           className="object-cover w-full h-full rounded-xl hover:scale-105 transition-all"
         />
+        <button
+          className=" bg-[#FF3D71] md:w-[300px] md:mx-auto md:my-10 w-full h-[50px] rounded-md mt-10  flex items-center justify-center gap-x-3 shadow-red-500"
+          onClick={() => navigate(`/watch/${data.id}`)}
+        >
+          <span className="text-lg font-medium">Watch now</span>
+          <BsFillPlayCircleFill className="text-3xl" />
+        </button>
       </div>
-      <h1 className="mb-10 text-2xl font-semibold text-center ">{title}</h1>
+      <h1 className="mt-32 mb-10 text-2xl font-semibold text-center ">
+        {title}
+      </h1>
       {genres.length > 0 && (
         <div className="flex items-center justify-center mb-10 gap-x-4 md:text-sm ">
           {genres.map((item) => (
@@ -95,10 +114,7 @@ function TrailerVideo() {
     <div className="">
       {results.length > 0 &&
         results.slice(1, 2).map((item) => (
-          <div
-            key={item.id}
-            className="responsive-video page-container mt-20 my-20"
-          >
+          <div key={item.id} className="responsive-video page-container mt-20 ">
             <iframe
               width="1904"
               height="768"
@@ -116,11 +132,34 @@ function TrailerVideo() {
 }
 
 function MovieSimilar() {
+  const { movieId } = useParams();
+  const { data } = useSWR(
+    `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=599785b548051b03695ff20b291c6977`,
+    fetcher
+  );
+  if (!data) return null;
+  const { results } = data;
   return (
-    <div className="py-10">
-      <h1 className="mb-10 text-3xl font-semibold text-center">
+    <div className="mb-10">
+      <h1 className=" text-3xl font-semibold text-center mb-10">
         Similar Movie
       </h1>
+      <div className="movie-list ml-3 md:ml-7 lg:ml-2">
+        <Swiper
+          modules={[Navigation, Pagination, Scrollbar, A11y]}
+          pagination={{ clickable: true }}
+          grabCursor={"true"}
+          spaceBetween={40}
+          slidesPerView={"auto"}
+        >
+          {results.length > 0 &&
+            results.map((item) => (
+              <SwiperSlide key={item.id}>
+                <CardMovie data={item}></CardMovie>
+              </SwiperSlide>
+            ))}
+        </Swiper>
+      </div>
     </div>
   );
 }
