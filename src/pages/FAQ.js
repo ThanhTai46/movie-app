@@ -2,11 +2,11 @@ import React from "react";
 import "./faq.scss";
 const FAQ = () => {
   return (
-    <section className="faq page-container">
+    <section className="py-20 faq page-container">
       <h1 className="md:text-[1.5rem] text-center text-[2.5rem] font-semibold ">
         Câu hỏi thường gặp{" "}
       </h1>{" "}
-      <div className="md:pl-4  mt-5">
+      <div className="mt-5 md:pl-4">
         <h3 className="text-[1.5em] font-semibold text-[#ffdd57] mb-[0.6666em]">
           1. Xem phim bị chậm, mặc dù đã kích hoạt VIP Mode cho phim đó ?
         </h3>{" "}
@@ -15,7 +15,7 @@ const FAQ = () => {
           chọn các server khác nhau), cần xác định do thiết bị hay do mạng của
           bạn.{" "}
         </p>{" "}
-        <ul className="list-disc m-6 ">
+        <ul className="m-6 list-disc ">
           <li className="mb-4">
             Hãy thử xem phim trên một thiết bị khác(máy tính / điện thoại /
             TV...).Nếu đổi sang thiết bị khác phim lại chạy mượt => do thiết bị
@@ -39,7 +39,7 @@ const FAQ = () => {
           2. Gặp vấn đề về âm thanh: phim không có tiếng, mất tiếng nhân vật,
           hoặc âm thanh bị rè ?
         </h3>{" "}
-        <ul className="list-disc m-6 ">
+        <ul className="m-6 list-disc ">
           <li className="mb-4">
             Nếu xem trên điện thoại : Lỗi âm thanh là do trình duyệt của
             bạn(thường là Chrome).{" "}

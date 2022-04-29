@@ -1,5 +1,4 @@
 import React from "react";
-import { Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/scss";
@@ -9,20 +8,15 @@ import "swiper/css/scrollbar";
 import { BsFillPlayCircleFill } from "react-icons/bs";
 import { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import useSWR from "swr";
-import { fetcher } from "../config";
+import { fetcher, tmdbAPI } from "../config";
 import CardMovie from "../components/Movies/CardMovie";
 import { useNavigate } from "react-router-dom";
 const MovieDetails = () => {
   const navigate = useNavigate();
   const { movieId } = useParams();
-  const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/${movieId}?api_key=599785b548051b03695ff20b291c6977`,
-    fetcher
-  );
+  const { data } = useSWR(tmdbAPI.getMovieDetails(movieId), fetcher);
   if (!data) return null;
   const { backdrop_path, poster_path, title, genres, overview } = data;
-
-  // console.log(genres);
   return (
     <div>
       <div className="w-full h-[600px] ">
@@ -38,7 +32,7 @@ const MovieDetails = () => {
         <img
           src={`https://image.tmdb.org/t/p/original/${poster_path}`}
           alt=""
-          className="object-cover w-full h-full rounded-xl hover:scale-105 transition-all"
+          className="object-cover w-full h-full transition-all rounded-xl hover:scale-105"
         />
         <button
           className=" bg-[#FF3D71] md:w-[300px] md:mx-auto md:my-10 w-full h-[50px] rounded-md mt-10  flex items-center justify-center gap-x-3 shadow-red-500"
@@ -74,26 +68,22 @@ const MovieDetails = () => {
 };
 function MovieCast() {
   const { movieId } = useParams();
-  const { data } = useSWR(
-    //https://api.themoviedb.org/3/movie/634649/videos?api_key=599785b548051b03695ff20b291c6977
-    `https://api.themoviedb.org/3/movie/${movieId}/credits?api_key=599785b548051b03695ff20b291c6977`,
-    fetcher
-  );
+  const { data } = useSWR(tmdbAPI.getMovieInfo(movieId, "credits"), fetcher);
   if (!data) return null;
   const { cast } = data;
   // console.log(cast);
 
   return (
-    <div className="page-container mb-10">
+    <div className="mb-10 page-container">
       <h1 className="mb-10 text-3xl font-semibold text-center">Cast</h1>
-      <div className="grid grid-cols-6 gap-5  md:grid md:grid-cols-2 md:gap-y-10 md:m-3 ">
+      <div className="grid grid-cols-6 gap-5 md:grid md:grid-cols-2 md:gap-y-10 md:m-3 ">
         {cast.length > 0 &&
           cast.slice(0, 6).map((item) => (
             <div className="cart-item" key={item.id}>
               <img
-                src={`https://image.tmdb.org/t/p/original/${item.profile_path}`}
+                src={tmdbAPI.imageOriginal(item.profile_path)}
                 alt=""
-                className="object-cover w-full h-full rounded-md hover:scale-105 transition-all"
+                className="object-cover w-full h-full transition-all rounded-md hover:scale-105"
               />
               <h3 className="mt-3">{item.name}</h3>
             </div>
@@ -104,17 +94,17 @@ function MovieCast() {
 }
 function TrailerVideo() {
   const { movieId } = useParams();
-  const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/${movieId}/videos?api_key=599785b548051b03695ff20b291c6977`,
-    fetcher
-  );
+  const { data } = useSWR(tmdbAPI.getMovieInfo(movieId, "videos"), fetcher);
   if (!data) return null;
   const { results } = data;
   return (
     <div className="">
       {results.length > 0 &&
         results.slice(1, 2).map((item) => (
-          <div key={item.id} className="responsive-video page-container mt-20 ">
+          <div
+            key={item.id}
+            className="mt-20 responsive-video page-container md:pt-28 "
+          >
             <iframe
               width="1904"
               height="768"
@@ -133,18 +123,15 @@ function TrailerVideo() {
 
 function MovieSimilar() {
   const { movieId } = useParams();
-  const { data } = useSWR(
-    `https://api.themoviedb.org/3/movie/${movieId}/similar?api_key=599785b548051b03695ff20b291c6977`,
-    fetcher
-  );
+  const { data } = useSWR(tmdbAPI.getMovieInfo(movieId, "similar"), fetcher);
   if (!data) return null;
   const { results } = data;
   return (
-    <div className="mb-10">
-      <h1 className=" text-3xl font-semibold text-center mb-10">
+    <div className="mb-10 md:mt-10">
+      <h1 className="mb-10 text-3xl font-semibold text-center ">
         Similar Movie
       </h1>
-      <div className="movie-list ml-3 md:ml-7 lg:ml-2">
+      <div className="ml-3 movie-list md:ml-7 lg:ml-2">
         <Swiper
           modules={[Navigation, Pagination, Scrollbar, A11y]}
           pagination={{ clickable: true }}

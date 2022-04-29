@@ -1,15 +1,10 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import useSWR from "swr";
-import { fetcher } from "../config";
+
 
 const MovieWatch = () => {
   const { movieId } = useParams();
-  //   const { data } = useSWR(
-  //     ` https://www.2embed.ru/embed/tmdb/movie?id=${movieId}`,
-  //     fetcher
-  //   );
-  //   console.log(data);
+
 
   return (
     <div className="py-20">

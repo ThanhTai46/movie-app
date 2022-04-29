@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useSWR from "swr";
-import { fetcher } from "../config";
-import CardMovie from "../components/Movies/CardMovie";
+import { fetcher, tmdbAPI } from "../config";
+import CardMovie, { MovieCardSkeleton } from "../components/Movies/CardMovie";
 import { v4 as uuidv4 } from "uuid";
 import {
   BsFillArrowLeftCircleFill,
@@ -16,28 +16,19 @@ const MoviePage = () => {
   const [nextPage, setNextPage] = useState(1);
   const [filter, setFilter] = useState("");
   const filterDebounce = useDebounce(filter, 500);
-  const [url, setUrl] = useState(
-    `https://api.themoviedb.org/3/movie/popular?api_key=599785b548051b03695ff20b291c6977&page=${nextPage}`
-  );
+  const [url, setUrl] = useState(tmdbAPI.getMovieList("popular", nextPage));
   const handleFilterChange = (e) => {
     setFilter(e.target.value);
   };
-  //https://api.themoviedb.org/3/search/movie?api_key=<<api_key>  //search
   const { data, error } = useSWR(url, fetcher);
-
   const loadding = !data && !error;
   useEffect(() => {
     if (filterDebounce) {
-      setUrl(
-        `https://api.themoviedb.org/3/search/movie?api_key=599785b548051b03695ff20b291c6977&query=${filterDebounce}&page=${nextPage}`
-      );
+      setUrl(tmdbAPI.getMovieSearch(filterDebounce, nextPage));
     } else {
-      setUrl(
-        `https://api.themoviedb.org/3/movie/popular?api_key=599785b548051b03695ff20b291c6977&page=${nextPage}`
-      );
+      tmdbAPI.getMovieList("popular", nextPage);
     }
   }, [filterDebounce, nextPage]);
-  // const { page, total_pages } = data;
   const movies = data?.results || [];
   useEffect(() => {
     if (!data || !data.total_results) return;
@@ -59,23 +50,33 @@ const MoviePage = () => {
         <div className="flex-1 ">
           <input
             type="text"
-            className="  w-full p-4 bg-white outline-none rounded-lg text-black"
+            className="w-full p-4 text-black bg-white rounded-lg outline-none "
             placeholder="Type here to search..."
             onChange={handleFilterChange}
           />
         </div>
       </div>
-      {loadding && (
-        <div className="w-10 h-10 rounded-full border-4 border-blue-500 border-t-transparent border-t-4 animate-spin mx-auto"></div>
-      )}
+      {/* {loadding && (
+        <div className="w-10 h-10 mx-auto border-4 border-t-4 border-blue-500 rounded-full border-t-transparent animate-spin"></div>
+      )} */}
+      {/* Loadding Skeleton */}
 
-      <div className="grid grid-cols-4 gap-10 md:grid md:grid-cols-1 lg:grid lg:grid-cols-2 lg:gap-5">
-        {!loadding &&
-          movies.length > 0 &&
-          movies.map((movie) => (
-            <CardMovie key={uuidv4()} data={movie}></CardMovie>
+      {loadding && (
+        <div className="grid grid-cols-4 gap-10 md:grid md:grid-cols-1 lg:grid lg:grid-cols-2 lg:gap-5">
+          {new Array(8).fill(0).map(() => (
+            <MovieCardSkeleton key={uuidv4()}></MovieCardSkeleton>
           ))}
-      </div>
+        </div>
+      )}
+      {!loadding && (
+        <div className="grid grid-cols-4 gap-10 md:grid md:grid-cols-1 lg:grid lg:grid-cols-2 lg:gap-5">
+          {!loadding &&
+            movies.length > 0 &&
+            movies.map((movie) => (
+              <CardMovie key={uuidv4()} data={movie}></CardMovie>
+            ))}
+        </div>
+      )}
       <div className="mt-10">
         <ReactPaginate
           breakLabel="..."

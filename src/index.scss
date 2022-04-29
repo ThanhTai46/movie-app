@@ -60,7 +60,23 @@ body::-webkit-scrollbar-thumb {
     transition-duration: 0.3s;
   }
 }
-
+// .skeleton {
+//   background-color: rgba(0,10,0,0);
+//     background-color: #eee;
+//     background-image: linear-gradient(
+//       110deg,
+//       #ececec 8%,
+//       #e2cdcd 18%,
+//       #ececec 33%
+//     );
+//     background-size: 200% 100%;
+//     animation: 1.5s shine linear infinite;
+//   }
+//   @keyframes shine {
+//     to {
+//       background-position-x: -200%;
+//     }
+//   }
 .header {
 }
 .hide {
@@ -81,6 +97,9 @@ body::-webkit-scrollbar-thumb {
   left: 0;
   width: 100%;
   height: 70%;
+  @media (max-width: 767px) {
+    height: 100%;
+  }
   object-fit: fill;
 }
 .pagination {
@@ -99,5 +118,30 @@ body::-webkit-scrollbar-thumb {
     font-weight: 500;
     color: black;
     border-radius: 6px;
+  }
+}
+.menu-toggle {
+  // transform: translateX(-700px);
+  animation: modalFadeIn ease 0.5s;
+}
+
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(-700px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+@keyframes modalFadeOut {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-700px);
   }
 }

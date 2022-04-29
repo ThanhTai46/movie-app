@@ -30,17 +30,14 @@ const Header = () => {
           </button>
 
           <button className="md:bg-[#cf2122] md:ml-5 md:mr-5 md:mt-12 md:py-3 md:medium md:rounded-lg">
-            Đăng nhập
+            Sign in
           </button>
           <span className="md:mx-5 md:my-3 md:mt-5 md:font-semibold md:text-[1rem]">
-            Đăng ký
+            <NavLink to="/movies">Movies</NavLink>
           </span>
           <hr />
           <span className="md:mx-5 md:my-3 md:font-semibold md:text-[1rem]">
-            Phim hot
-          </span>
-          <span className="md:mx-5 md:my-3 md:font-semibold md:text-[1rem]">
-            Phim lẻ
+            <NavLink to="/faq">FAQ</NavLink>
           </span>
         </div>
       </div>
@@ -50,7 +47,7 @@ const Header = () => {
             ? { backgroundColor: "transparent" }
             : { backgroundColor: "rgb(17, 17, 17)" }
         }
-        className=" flex items-center justify-start transition-all py-5 mb-2 px-5 header gap-x-5 fixed top-0  z-20  w-full bg-transparent"
+        className="fixed top-0 z-20 flex items-center justify-start w-full px-5 py-5 mb-2 transition-all bg-transparent header gap-x-5"
       >
         <GiHamburgerMenu
           className="hidden menu md:block md:text-2xl"
